@@ -1,8 +1,5 @@
 // API 基础地址配置
-const API_BASE_URL = localStorage.getItem('API_BASE_URL') || 
-    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-        ? 'http://localhost:3000' 
-        : 'http://223.199.215.239:3564');  // 你的实际后端服务器地址
+const API_BASE_URL = 'https://mutx1636.avosapps.us';
 
 // 获取完整的 API URL
 function getApiUrl(endpoint) {
@@ -254,7 +251,7 @@ function loadAboutContent() {
                 // 确保 marked 已载
                 if (typeof marked === 'undefined') {
                     console.error('Marked library not loaded');
-                    contentDiv.innerHTML = '<p class="text-red-500">加载 Markdown 解析器失���</p>';
+                    contentDiv.innerHTML = '<p class="text-red-500">加载 Markdown 解析器失</p>';
                     return;
                 }
                 
