@@ -6,6 +6,28 @@ function getApiUrl(endpoint) {
     return `${API_BASE_URL}${endpoint}`;
 }
 
+// 通用的 fetch 函数
+async function fetchApi(endpoint, options = {}) {
+    const url = getApiUrl(endpoint);
+    const defaultOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        mode: 'cors'
+    };
+
+    try {
+        const response = await fetch(url, { ...defaultOptions, ...options });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(`API 请求失败 (${endpoint}):`, error);
+        throw error;
+    }
+}
+
 // 全局变量
 const spinner = document.querySelector('.loading-spinner');
 const errorMessage = document.getElementById('error-message');
@@ -329,89 +351,22 @@ function handleContactForm() {
 // 加载作品列表
 async function loadWorks() {
     try {
-        const response = await fetch(getApiUrl('/api/works'));
-        if (!response.ok) {
-            throw new Error('获取作品列表失败');
-        }
-        const works = await response.json();
-        
-        const worksGrid = document.querySelector('.works-grid');
-        if (!worksGrid) {
-            console.error('找不到作品列表容器');
-            return;
-        }
-
-        if (works.length === 0) {
-            worksGrid.innerHTML = '<div class="text-center text-gray-500 py-8">暂无作品展示</div>';
-            return;
-        }
-
-        worksGrid.innerHTML = works.map(work => `
-            <article class="bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-                <div class="flex items-center mb-6">
-                    ${work.image ? `
-                        <div class="w-24 h-24 rounded-lg overflow-hidden mr-6">
-                            <img src="${work.image}" alt="${work.title}" class="w-full h-full object-cover">
-                        </div>
-                    ` : ''}
-                    <div>
-                        <h3 class="text-2xl font-bold mb-2">${work.title}</h3>
-                        <time class="text-sm text-gray-500">
-                            ${new Date(work.created_at).toLocaleDateString()}
-                        </time>
-                    </div>
-                </div>
-                <p class="text-gray-600">${work.description}</p>
-            </article>
-        `).join('');
+        const works = await fetchApi('/api/works');
+        displayWorks(works);
     } catch (error) {
         console.error('加载作品列表失败:', error);
-        showError('加载作品列表失败');
+        showError('加载作品列表失败，请稍后重试');
     }
 }
 
 // 加载博客列表
 async function loadBlogs() {
     try {
-        const response = await fetch('http://localhost:3000/api/blogs');
-        if (!response.ok) {
-            throw new Error('获取博客列表失败');
-        }
-        const blogs = await response.json();
-        
-        const blogList = document.querySelector('.blogs-grid');
-        if (!blogList) {
-            console.error('找不到博客列表容器');
-            return;
-        }
-
-        if (blogs.length === 0) {
-            blogList.innerHTML = '<div class="text-center text-gray-500 py-8">暂无博客文章</div>';
-            return;
-        }
-
-        blogList.innerHTML = blogs.map(blog => `
-            <article class="blog-card cursor-pointer" onclick="window.location.hash = 'blog/${blog.id}'">
-                ${blog.cover_image ? `
-                    <div class="blog-card-image">
-                        <img src="${blog.cover_image}" alt="${blog.title}" class="w-full h-48 object-cover">
-                    </div>
-                ` : ''}
-                <div class="blog-card-content">
-                    <h3 class="text-xl font-bold mb-2">${blog.title}</h3>
-                    <p class="text-gray-600 mb-4">${blog.content.substring(0, 200)}...</p>
-                    <div class="flex justify-between items-center text-sm text-gray-500">
-                        <time>${new Date(blog.created_at).toLocaleDateString()}</time>
-                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                            ${blog.category_name || '未分类'}
-                        </span>
-                    </div>
-                </div>
-            </article>
-        `).join('');
+        const blogs = await fetchApi('/api/blogs');
+        displayBlogs(blogs);
     } catch (error) {
         console.error('加载博客列表失败:', error);
-        showError('加载博客列表失败');
+        showError('加载博客列表失败，请稍后重试');
     }
 }
 
@@ -771,18 +726,13 @@ document.addEventListener('DOMContentLoaded', initSearchIndex);
 // 记录访问
 async function recordVisit(pageId, pageType) {
     try {
-        await fetch('http://localhost:3000/api/stats/visit', {
+        await fetchApi('/api/stats/visit', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                page_id: pageId,
-                page_type: pageType
-            })
+            body: JSON.stringify({ page_id: pageId, page_type: pageType })
         });
     } catch (error) {
         console.error('记录访问失败:', error);
+        // 这里我们不显示错误，因为这不是关键功能
     }
 }
 
@@ -846,3 +796,70 @@ document.addEventListener('DOMContentLoaded', function() {
     script.onload = initSearchIndex;
     document.head.appendChild(script);
 });
+
+// 显示博客列表
+function displayBlogs(blogs) {
+    const blogList = document.querySelector('.blogs-grid');
+    if (!blogList) {
+        console.error('找不到博客列表容器');
+        return;
+    }
+
+    if (blogs.length === 0) {
+        blogList.innerHTML = '<div class="text-center text-gray-500 py-8">暂无博客文章</div>';
+        return;
+    }
+
+    blogList.innerHTML = blogs.map(blog => `
+        <article class="blog-card cursor-pointer" onclick="window.location.hash = 'blog/${blog.id}'">
+            ${blog.cover_image ? `
+                <div class="blog-card-image">
+                    <img src="${blog.cover_image}" alt="${blog.title}" class="w-full h-48 object-cover">
+                </div>
+            ` : ''}
+            <div class="blog-card-content">
+                <h3 class="text-xl font-bold mb-2">${blog.title}</h3>
+                <p class="text-gray-600 mb-4">${blog.content.substring(0, 200)}...</p>
+                <div class="flex justify-between items-center text-sm text-gray-500">
+                    <time>${new Date(blog.created_at).toLocaleDateString()}</time>
+                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                        ${blog.category_name || '未分类'}
+                    </span>
+                </div>
+            </div>
+        </article>
+    `).join('');
+}
+
+// 显示作品列表
+function displayWorks(works) {
+    const worksGrid = document.querySelector('.works-grid');
+    if (!worksGrid) {
+        console.error('找不到作品列表容器');
+        return;
+    }
+
+    if (works.length === 0) {
+        worksGrid.innerHTML = '<div class="text-center text-gray-500 py-8">暂无作品展示</div>';
+        return;
+    }
+
+    worksGrid.innerHTML = works.map(work => `
+        <article class="bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
+            <div class="flex items-center mb-6">
+                ${work.image ? `
+                    <div class="w-24 h-24 rounded-lg overflow-hidden mr-6">
+                        <img src="${work.image}" alt="${work.title}" class="w-full h-full object-cover">
+                    </div>
+                ` : ''}
+                <div>
+                    <h3 class="text-2xl font-bold mb-2">${work.title}</h3>
+                    <time class="text-sm text-gray-500">
+                        ${new Date(work.created_at).toLocaleDateString()}
+                    </time>
+                </div>
+            </div>
+            <p class="text-gray-600">${work.description}</p>
+        </article>
+    `).join('');
+}
