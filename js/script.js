@@ -2,7 +2,7 @@
 const API_BASE_URL = localStorage.getItem('API_BASE_URL') || 
     (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
         ? 'http://localhost:3000' 
-        : 'https://mutx163.github.io/api');  // 替换为你的后端服务器地址
+        : 'http://223.199.215.239:3564');  // 你的实际后端服务器地址
 
 // 获取完整的 API URL
 function getApiUrl(endpoint) {
@@ -51,7 +51,7 @@ async function loadPage(page) {
         // 等待 DOM 更新完成
         await new Promise(resolve => setTimeout(resolve, 0));
         
-        // ���据页面类型加载相应的内容
+        // 据页面类型加载相应的内容
         const pageType = window.location.hash.slice(1).split('?')[0];
         switch(pageType) {
             case 'profile':
@@ -254,7 +254,7 @@ function loadAboutContent() {
                 // 确保 marked 已载
                 if (typeof marked === 'undefined') {
                     console.error('Marked library not loaded');
-                    contentDiv.innerHTML = '<p class="text-red-500">加载 Markdown 解析器失败</p>';
+                    contentDiv.innerHTML = '<p class="text-red-500">加载 Markdown 解析器失���</p>';
                     return;
                 }
                 
