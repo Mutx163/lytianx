@@ -1,7 +1,9 @@
 // API 基础地址配置
 const API_BASE_URL = window.location.hostname === 'mutx163.github.io' 
     ? 'https://mutx1636.avosapps.us'  // 生产环境
-    : 'http://localhost:3000';         // 开发环境
+    : window.location.protocol === 'https:' 
+        ? 'https://localhost:3000'     // 本地 HTTPS
+        : 'http://localhost:3000';     // 本地 HTTP
 
 // 获取完整的 API URL
 function getApiUrl(endpoint) {
@@ -46,7 +48,7 @@ function showError(message) {
     }, 3000);
 }
 
-// 显示加���动画
+// 显示加载动画
 function showSpinner() {
     spinner.style.display = 'block';
 }
@@ -215,7 +217,7 @@ function switchTheme() {
 
 // 检查是否有类似的代码在页面加载后修改导航栏
 window.addEventListener('load', function() {
-    // 这里可能有改变导航栏大小或位置的���码
+    // 这里可能有��变导航栏大小或位置的代码
     // ...
 })
 
@@ -545,7 +547,7 @@ function addFooter() {
     const footerEmail = footer.querySelector('#footer-email');
     const footerPhone = footer.querySelector('#footer-phone');
     
-    if (footerEmail) footerEmail.textContent = contactInfo.email ? `邮���：${contactInfo.email}` : '';
+    if (footerEmail) footerEmail.textContent = contactInfo.email ? `邮：${contactInfo.email}` : '';
     if (footerPhone) footerPhone.textContent = contactInfo.phone ? `电话：${contactInfo.phone}` : '';
 
     // 添加到页面
@@ -582,7 +584,7 @@ async function loadPage(pageName) {
         // 等待 DOM 更新完成
         await new Promise(resolve => setTimeout(resolve, 0));
         
-        // 根据页面类型加载相应的内容
+        // 根据页面类型加载相��的内容
         const pageType = pageName.replace('.html', '');
         switch(pageType) {
             case 'profile':
@@ -879,7 +881,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(script);
 });
 
-// 显示作品��表
+// 显示作品列表
 function displayWorks(works) {
     const worksGrid = document.querySelector('.works-grid');
     if (!worksGrid) {
@@ -913,7 +915,7 @@ function displayWorks(works) {
     `).join('');
 }
 
-// 修改图片加载错误处��
+// 修改图片加载错误处
 function handleImageError(img) {
     img.onerror = null; // 防止循环
     img.src = '/images/placeholder.jpg'; // 使用占位图
