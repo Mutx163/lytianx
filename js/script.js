@@ -23,7 +23,8 @@ async function fetchApi(endpoint, options = {}) {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return await response.json();
+        const data = await response.json();
+        return data;
     } catch (error) {
         console.error(`API 请求失败 (${endpoint}):`, error);
         // 不要立即抛出错误，而是返回空数据
@@ -45,7 +46,7 @@ function showError(message) {
     }, 3000);
 }
 
-// 显示加载动画
+// 显示加���动画
 function showSpinner() {
     spinner.style.display = 'block';
 }
@@ -134,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
         sanitize: false
     });
     
-    // 更新头��
+    // 更新头像
     updateProfileAvatar();
     
     // 处理导航链接点击
@@ -214,7 +215,7 @@ function switchTheme() {
 
 // 检查是否有类似的代码在页面加载后修改导航栏
 window.addEventListener('load', function() {
-    // 这里可能有改变导航栏大小或位置的代码
+    // 这里可能有改变导航栏大小或位置的���码
     // ...
 })
 
@@ -249,7 +250,7 @@ function updateProfileAvatar() {
     }
 }
 
-// 添加加载个人信息的函数
+// 添加加载个人信息函数
 function loadProfileInfo() {
     const savedProfile = JSON.parse(localStorage.getItem('profile') || '{}');
     
@@ -544,7 +545,7 @@ function addFooter() {
     const footerEmail = footer.querySelector('#footer-email');
     const footerPhone = footer.querySelector('#footer-phone');
     
-    if (footerEmail) footerEmail.textContent = contactInfo.email ? `邮箱：${contactInfo.email}` : '';
+    if (footerEmail) footerEmail.textContent = contactInfo.email ? `邮���：${contactInfo.email}` : '';
     if (footerPhone) footerPhone.textContent = contactInfo.phone ? `电话：${contactInfo.phone}` : '';
 
     // 添加到页面
@@ -878,7 +879,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(script);
 });
 
-// 显示作品列表
+// 显示作品��表
 function displayWorks(works) {
     const worksGrid = document.querySelector('.works-grid');
     if (!worksGrid) {
@@ -886,7 +887,8 @@ function displayWorks(works) {
         return;
     }
 
-    if (works.length === 0) {
+    // 如果 works 是 null 或空数组，显示无数据提示
+    if (!works || works.length === 0) {
         worksGrid.innerHTML = '<div class="text-center text-gray-500 py-8">暂无作品展示</div>';
         return;
     }
@@ -911,7 +913,7 @@ function displayWorks(works) {
     `).join('');
 }
 
-// 修改图片加载错误处理
+// 修改图片加载错误处��
 function handleImageError(img) {
     img.onerror = null; // 防止循环
     img.src = '/images/placeholder.jpg'; // 使用占位图
