@@ -5,7 +5,11 @@ echo ============================================
 echo          前后端代码自动部署脚本
 echo ============================================
 
+echo 请输入更新日志:
+set /p commit_message=^> 
+
 REM 部署前端代码到 GitHub Pages
+echo.
 echo [1] 部署前端代码到 GitHub Pages...
 echo.
 
@@ -26,8 +30,7 @@ echo [1.3] 添加前端文件...
 git add -A
 
 echo [1.4] 提交前端代码...
-set /p frontend_message=请输入前端代码提交说明: 
-git commit -m "%frontend_message%"
+git commit -m "%commit_message%"
 
 echo [1.5] 切换分支...
 git branch -M main
@@ -52,8 +55,7 @@ echo [2.2] 添加后端文件...
 git add -A
 
 echo [2.3] 提交后端代码...
-set /p backend_message=请输入后端代码提交说明: 
-git commit -m "%backend_message%"
+git commit -m "%commit_message%"
 
 echo [2.4] 推送后端代码...
 git push -f origin main

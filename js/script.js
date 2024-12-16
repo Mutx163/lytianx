@@ -1,5 +1,7 @@
 // API 基础地址配置
-const API_BASE_URL = 'https://mutx1636.avosapps.us';
+const API_BASE_URL = window.location.hostname === 'mutx163.github.io' 
+    ? 'https://mutx1636.avosapps.us'  // 生产环境
+    : 'http://localhost:3000';         // 开发环境
 
 // 获取完整的 API URL
 function getApiUrl(endpoint) {
@@ -24,7 +26,8 @@ async function fetchApi(endpoint, options = {}) {
         return await response.json();
     } catch (error) {
         console.error(`API 请求失败 (${endpoint}):`, error);
-        throw error;
+        // 不要立即抛出错误，而是返回空数据
+        return endpoint.includes('/blogs') ? [] : null;
     }
 }
 
@@ -355,18 +358,22 @@ async function loadWorks() {
         displayWorks(works);
     } catch (error) {
         console.error('加载作品列表失败:', error);
-        showError('加载作品列表失败，请稍后重试');
+        showError('加载作品列表失败，请稍���重试');
     }
 }
 
-// 加载博客列表
+// 修改加载博客列表函数
 async function loadBlogs() {
     try {
         const blogs = await fetchApi('/api/blogs');
-        displayBlogs(blogs);
+        if (Array.isArray(blogs)) {
+            displayBlogs(blogs);
+        } else {
+            displayBlogs([]);
+        }
     } catch (error) {
         console.error('加载博客列表失败:', error);
-        showError('加载博客列表失败，请稍后重试');
+        displayBlogs([]); // 显示空列表而不是错误信息
     }
 }
 
@@ -567,11 +574,14 @@ window.addEventListener('hashchange', handleRoute);
 // 搜索功能
 let searchIndex;
 
-// 初始化搜索索引
+// 修改搜索索引初始化
 async function initSearchIndex() {
     try {
-        const response = await fetch('http://localhost:3000/api/blogs');
-        const blogs = await response.json();
+        const blogs = await fetchApi('/api/blogs');
+        if (!Array.isArray(blogs) || blogs.length === 0) {
+            console.warn('没有博客数据可用于搜索索引');
+            return;
+        }
         
         searchIndex = elasticlunr(function() {
             this.addField('title');
@@ -589,7 +599,8 @@ async function initSearchIndex() {
             });
         });
     } catch (error) {
-        console.error('初始化搜索索引失败:', error);
+        console.warn('初始化搜索索引失败:', error);
+        // 继续执行，不阻止页面加载
     }
 }
 
@@ -723,7 +734,7 @@ function highlight(text, query) {
 // 在页面加载时初始化搜索索引
 document.addEventListener('DOMContentLoaded', initSearchIndex);
 
-// 记录访问
+// 修改记录访问函数
 async function recordVisit(pageId, pageType) {
     try {
         await fetchApi('/api/stats/visit', {
@@ -731,81 +742,20 @@ async function recordVisit(pageId, pageType) {
             body: JSON.stringify({ page_id: pageId, page_type: pageType })
         });
     } catch (error) {
-        console.error('记录访问失败:', error);
-        // 这里我们不显示错误，因为这不是关键功能
+        console.warn('记录访问失败:', error);
+        // 忽略错误，不影响用户体验
     }
 }
 
 // 修改博客列表容器查找逻辑
 function displayBlogs(blogs) {
-    if (!blogs || blogs.length === 0) {
-        console.warn('没有博客数据可显示');
-        return;
-    }
-
-    const blogListContainer = document.querySelector('.blog-grid, #blogList, .blogs-grid');
-    if (!blogListContainer) {
-        console.warn('找不到博客列表容器，创建新容器');
-        const newContainer = document.createElement('div');
-        newContainer.className = 'grid gap-6';
-        document.querySelector('main')?.appendChild(newContainer);
-        return;
-    }
-
-    blogListContainer.innerHTML = blogs.map(blog => `
-        <article class="bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 cursor-pointer">
-            <div class="flex items-center mb-6">
-                ${blog.cover_image ? `
-                    <div class="w-24 h-24 rounded-lg overflow-hidden mr-6">
-                        <img src="${blog.cover_image}" alt="${blog.title}" class="w-full h-full object-cover">
-                    </div>
-                ` : ''}
-                <div>
-                    <h3 class="text-2xl font-bold mb-2 text-gray-900 hover:text-blue-600">${blog.title}</h3>
-                    <div class="flex items-center space-x-4 text-sm text-gray-500">
-                        <time>${new Date(blog.created_at).toLocaleDateString()}</time>
-                        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full">
-                            ${blog.category_name || '未分类'}
-                        </span>
-                    </div>
-                </div>
-            </div>
-            <p class="text-gray-600 mb-4">${blog.content.substring(0, 200)}...</p>
-            <div class="flex flex-wrap gap-2">
-                ${blog.tags ? blog.tags.map(tag => `
-                    <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">${tag}</span>
-                `).join('') : ''}
-            </div>
-        </article>
-    `).join('');
-
-    // 添加点击事件
-    blogListContainer.querySelectorAll('article').forEach((article, index) => {
-        article.addEventListener('click', () => {
-            const blog = blogs[index];
-            window.location.hash = `blog/${blog.id}`;
-        });
-    });
-}
-
-// 添加 elasticlunr 库
-document.addEventListener('DOMContentLoaded', function() {
-    // 添加 elasticlunr 脚本
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/elasticlunr/0.9.6/elasticlunr.min.js';
-    script.onload = initSearchIndex;
-    document.head.appendChild(script);
-});
-
-// 显示博客列表
-function displayBlogs(blogs) {
     const blogList = document.querySelector('.blogs-grid');
     if (!blogList) {
-        console.error('找不到博客列表容器');
+        console.warn('找不到博客列表容器');
         return;
     }
 
-    if (blogs.length === 0) {
+    if (!Array.isArray(blogs) || blogs.length === 0) {
         blogList.innerHTML = '<div class="text-center text-gray-500 py-8">暂无博客文章</div>';
         return;
     }
@@ -814,7 +764,10 @@ function displayBlogs(blogs) {
         <article class="blog-card cursor-pointer" onclick="window.location.hash = 'blog/${blog.id}'">
             ${blog.cover_image ? `
                 <div class="blog-card-image">
-                    <img src="${blog.cover_image}" alt="${blog.title}" class="w-full h-48 object-cover">
+                    <img src="${blog.cover_image}" 
+                         alt="${blog.title}" 
+                         class="w-full h-48 object-cover"
+                         onerror="handleImageError(this)">
                 </div>
             ` : ''}
             <div class="blog-card-content">
@@ -830,6 +783,15 @@ function displayBlogs(blogs) {
         </article>
     `).join('');
 }
+
+// 添加 elasticlunr 库
+document.addEventListener('DOMContentLoaded', function() {
+    // 添加 elasticlunr 脚本
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/elasticlunr/0.9.6/elasticlunr.min.js';
+    script.onload = initSearchIndex;
+    document.head.appendChild(script);
+});
 
 // 显示作品列表
 function displayWorks(works) {
@@ -862,4 +824,10 @@ function displayWorks(works) {
             <p class="text-gray-600">${work.description}</p>
         </article>
     `).join('');
+}
+
+// 修改图片加载错误处理
+function handleImageError(img) {
+    img.onerror = null; // 防止循环
+    img.src = '/images/placeholder.jpg'; // 使用占位图
 }
