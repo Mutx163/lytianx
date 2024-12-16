@@ -22,9 +22,12 @@ REM 提交更改
 set /p commit_message=[提交] 请输入提交信息: 
 git commit -m "%commit_message%"
 
+REM 创建并切换到主分支
+git branch -M main
+
 REM 推送到 GitHub
 echo [推送] 正在推送到 GitHub...
-git push -u origin main
+git push -f origin main
 
 echo [完成] 部署完成！
 pause 
