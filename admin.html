@@ -166,7 +166,7 @@
                         <p class="text-3xl font-bold mt-2" id="today-visits">0</p>
                     </div>
                     <div class="bg-white p-4 rounded-lg shadow">
-                        <h3 class="text-lg font-semibold text-gray-600">文章数量</h3>
+                        <h3 class="text-lg font-semibold text-gray-600">文��数量</h3>
                         <p class="text-3xl font-bold mt-2" id="total-posts">0</p>
                     </div>
                     <div class="bg-white p-4 rounded-lg shadow">
@@ -211,7 +211,7 @@
                                 <textarea id="site-description" class="form-textarea" rows="3"></textarea>
                             </div>
                             <div>
-                                <label class="form-label">每页显示文章数量</label>
+                                <label class="form-label">每页显示文章��量</label>
                                 <input type="number" id="posts-per-page" class="form-input" min="1" max="50">
                             </div>
                             <div>
@@ -272,10 +272,21 @@
                             </div>
                             <div>
                                 <h4 class="text-md font-semibold mb-3">服务器配置</h4>
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="grid grid-cols-1 gap-4">
+                                    <div class="mb-4">
+                                        <label class="form-label">运行环境</label>
+                                        <select id="env-select" class="form-input" onchange="switchEnvironment()">
+                                            <option value="development">开发环境</option>
+                                            <option value="production">生产环境</option>
+                                        </select>
+                                    </div>
                                     <div>
-                                        <label class="form-label">API 服务器地址</label>
-                                        <input type="text" id="api-server" class="form-input" placeholder="http://your-server-ip:3000">
+                                        <label class="form-label">开发环境 API 地址</label>
+                                        <input type="text" id="dev-api-server" class="form-input" placeholder="http://localhost:3000">
+                                    </div>
+                                    <div>
+                                        <label class="form-label">生产环境 API 地址</label>
+                                        <input type="text" id="prod-api-server" class="form-input" placeholder="https://mutx1636.avosapps.us">
                                     </div>
                                 </div>
                                 <div class="mt-4 flex justify-end space-x-2">
