@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
         sanitize: false
     });
     
-    // 更新头像
+    // 更新头��
     updateProfileAvatar();
     
     // 处理导航链接点击
@@ -380,11 +380,10 @@ async function loadBlogs() {
 // 加载博客详情
 async function loadBlogDetail(id) {
     try {
-        const response = await fetch(getApiUrl(`/api/blogs/${id}`));
-        if (!response.ok) {
-            throw new Error('获取博客详情失败');
+        const blog = await fetchApi(`/api/blogs/${id}`);
+        if (!blog) {
+            throw new Error('博客不存在');
         }
-        const blog = await response.json();
         
         const content = document.getElementById('page-content');
         if (!content) {
@@ -422,9 +421,14 @@ async function loadBlogDetail(id) {
                 </article>
             </section>
         `;
+
+        // 更新页面标题
+        document.title = `${blog.title} - 个人博客`;
     } catch (error) {
         console.error('加载博客详情失败:', error);
         showError('加载博客详情失败');
+        // 加载失败时返回博客列表
+        window.location.hash = '#blog';
     }
 }
 
@@ -462,15 +466,6 @@ async function handleRoute() {
             }
         } catch (error) {
             console.warn('记录访问失败:', error);
-            // 继续执行，不影响主要功能
-        }
-
-        const content = document.getElementById('page-content');
-        if (!content) {
-            console.warn('找不到内容容器，创建新容器');
-            const newContent = document.createElement('div');
-            newContent.id = 'page-content';
-            document.body.appendChild(newContent);
         }
 
         switch (page) {
@@ -485,13 +480,13 @@ async function handleRoute() {
                 break;
             case 'blog':
                 if (id) {
+                    // 直接加载博客详情，不需要加载 blog.html
                     await loadBlogDetail(id);
                 } else {
                     await loadPage('blog.html');
                     await loadBlogs();
                 }
                 break;
-            case 'about':
             case 'profile':
                 await loadPage('profile.html');
                 loadAboutContent();
@@ -500,12 +495,60 @@ async function handleRoute() {
             default:
                 await loadPage('404.html');
         }
+
+        // 添加页脚
+        addFooter();
     } catch (error) {
         console.error('页面加载失败:', error);
         showError('页面加载失败');
     } finally {
         hideSpinner();
     }
+}
+
+// 添加页脚函数
+function addFooter() {
+    const footer = document.createElement('footer');
+    footer.className = 'bg-white shadow-lg mt-16';
+    footer.innerHTML = `
+        <div class="max-w-6xl mx-auto py-8 px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">关于本站</h3>
+                    <p class="text-gray-600">这是一个基于 Express + MySQL 的个人主页项目，包含博客、作品展示等功能。</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-600 hover:text-blue-600">首页</a></li>
+                        <li><a href="#blog" class="text-gray-600 hover:text-blue-600">博客</a></li>
+                        <li><a href="#profile" class="text-gray-600 hover:text-blue-600">关于我</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">联系方式</h3>
+                    <div class="space-y-2 text-gray-600">
+                        <p id="footer-email"></p>
+                        <p id="footer-phone"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 mt-8 pt-8 text-center text-gray-600">
+                <p>&copy; ${new Date().getFullYear()} 个人主页. All rights reserved.</p>
+            </div>
+        </div>
+    `;
+
+    // 更新页脚联系信息
+    const contactInfo = JSON.parse(localStorage.getItem('contactInfo') || '{}');
+    const footerEmail = footer.querySelector('#footer-email');
+    const footerPhone = footer.querySelector('#footer-phone');
+    
+    if (footerEmail) footerEmail.textContent = contactInfo.email ? `邮箱：${contactInfo.email}` : '';
+    if (footerPhone) footerPhone.textContent = contactInfo.phone ? `电话：${contactInfo.phone}` : '';
+
+    // 添加到页面
+    document.body.appendChild(footer);
 }
 
 // 页面加载函数
@@ -604,7 +647,7 @@ async function initSearchIndex() {
     }
 }
 
-// 处理���索
+// 处理索
 const searchInput = document.getElementById('search-input');
 const searchResults = document.getElementById('search-results');
 
@@ -731,7 +774,7 @@ function highlight(text, query) {
     return text.replace(regex, '<mark class="bg-yellow-200">$1</mark>');
 }
 
-// 在页���加载时初始化搜索索引
+// 在页面加载时初始化搜索索引
 document.addEventListener('DOMContentLoaded', initSearchIndex);
 
 // 修改记录访问函数
@@ -782,7 +825,7 @@ async function displayBlogs(blogs) {
 
     blogList.innerHTML = displayedBlogs.map(blog => `
         <article class="blog-card bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 mb-6 cursor-pointer" 
-                onclick="window.location.hash = 'blog/${blog.id}'">
+                data-blog-id="${blog.id}">
             ${blog.cover_image ? `
                 <div class="blog-card-image">
                     <img src="${blog.cover_image}" 
@@ -803,6 +846,16 @@ async function displayBlogs(blogs) {
             </div>
         </article>
     `).join('');
+
+    // 添加点击事件监听器
+    const blogCards = blogList.querySelectorAll('.blog-card');
+    blogCards.forEach(card => {
+        card.addEventListener('click', async function() {
+            const blogId = this.dataset.blogId;
+            window.location.hash = `blog/${blogId}`;
+            await loadBlogDetail(blogId);
+        });
+    });
 
     // 如果是主页且有更多博客，添加"查看更多"按钮
     if (isHomePage && blogs.length > maxBlogs) {
