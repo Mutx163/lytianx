@@ -358,7 +358,7 @@ async function loadWorks() {
         displayWorks(works);
     } catch (error) {
         console.error('加载作品列表失败:', error);
-        showError('加载作品列表失败，请稍���重试');
+        showError('加载作品列表失败，请稍后重试');
     }
 }
 
@@ -604,7 +604,7 @@ async function initSearchIndex() {
     }
 }
 
-// 处理搜索
+// 处理���索
 const searchInput = document.getElementById('search-input');
 const searchResults = document.getElementById('search-results');
 
@@ -731,7 +731,7 @@ function highlight(text, query) {
     return text.replace(regex, '<mark class="bg-yellow-200">$1</mark>');
 }
 
-// 在页面加载时初始化搜索索引
+// 在页���加载时初始化搜索索引
 document.addEventListener('DOMContentLoaded', initSearchIndex);
 
 // 修改记录访问函数
@@ -748,10 +748,25 @@ async function recordVisit(pageId, pageType) {
 }
 
 // 修改博客列表容器查找逻辑
-function displayBlogs(blogs) {
-    const blogList = document.querySelector('.blogs-grid');
+async function displayBlogs(blogs) {
+    // 等待一小段时间确保 DOM 已加载
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // 尝试查找博客列表容器（支持主页和博客页面）
+    let blogList = document.querySelector('.blogs-grid, .blog-grid');
+    let retryCount = 0;
+    const maxRetries = 3;
+    
+    // 如果没有找到容器，尝试重试几次
+    while (!blogList && retryCount < maxRetries) {
+        console.log(`尝试查找博客列表容器，第 ${retryCount + 1} 次`);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        blogList = document.querySelector('.blogs-grid, .blog-grid');
+        retryCount++;
+    }
+    
     if (!blogList) {
-        console.warn('找不到博客列表容器');
+        console.error('找不到博客列表容器，请检查页面结构');
         return;
     }
 
@@ -760,19 +775,25 @@ function displayBlogs(blogs) {
         return;
     }
 
-    blogList.innerHTML = blogs.map(blog => `
-        <article class="blog-card cursor-pointer" onclick="window.location.hash = 'blog/${blog.id}'">
+    // 判断是否在主页
+    const isHomePage = blogList.classList.contains('blog-grid');
+    const maxBlogs = isHomePage ? 4 : blogs.length; // 主页只显示4篇
+    const displayedBlogs = isHomePage ? blogs.slice(0, maxBlogs) : blogs;
+
+    blogList.innerHTML = displayedBlogs.map(blog => `
+        <article class="blog-card bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 mb-6 cursor-pointer" 
+                onclick="window.location.hash = 'blog/${blog.id}'">
             ${blog.cover_image ? `
                 <div class="blog-card-image">
                     <img src="${blog.cover_image}" 
                          alt="${blog.title}" 
                          class="w-full h-48 object-cover"
-                         onerror="handleImageError(this)">
+                         onerror="this.onerror=null; this.src='/images/placeholder.jpg';">
                 </div>
             ` : ''}
-            <div class="blog-card-content">
+            <div class="p-6">
                 <h3 class="text-xl font-bold mb-2">${blog.title}</h3>
-                <p class="text-gray-600 mb-4">${blog.content.substring(0, 200)}...</p>
+                <p class="text-gray-600 mb-4 line-clamp-3">${blog.content.substring(0, 200)}...</p>
                 <div class="flex justify-between items-center text-sm text-gray-500">
                     <time>${new Date(blog.created_at).toLocaleDateString()}</time>
                     <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">
@@ -782,6 +803,17 @@ function displayBlogs(blogs) {
             </div>
         </article>
     `).join('');
+
+    // 如果是主页且有更多博客，添加"查看更多"按钮
+    if (isHomePage && blogs.length > maxBlogs) {
+        blogList.insertAdjacentHTML('afterend', `
+            <div class="text-center mt-8">
+                <a href="#blog" class="inline-block px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                    查看更多博客
+                </a>
+            </div>
+        `);
+    }
 }
 
 // 添加 elasticlunr 库
