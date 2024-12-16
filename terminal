@@ -1,0 +1,4 @@
+mkdir -p images/works
+touch images/profile.jpg
+touch images/works/2.jpg
+touch images/works/3.jpg 

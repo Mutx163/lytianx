@@ -1,0 +1,541 @@
+/* 全局样式 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* 导航栏样式 */
+header {
+    background-color: rgba(255, 255, 255, 0.8); /* 半透明白色背景 */
+    padding: 10px 20px; /* 上下 10px，左右 20px */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 浅色阴影 */
+    position: sticky; /* 固定导航栏 */
+    top: 0;
+    z-index: 1000; /* 确保导航栏在最上层 */
+    display: flex; /* 使用 flexbox 布局 */
+    justify-content: center; /* 导航栏内容居中对齐 */
+    align-items: center; /* 垂直居中 */
+    border-radius: 19px; /* 导航栏圆角 */
+    backdrop-filter: blur(10px); /* 毛玻璃效果 */
+    border: 1px solid rgba(0, 0, 0, 0.1); /* 边框 */
+    height: 38px; /* 导航栏高度 */
+}
+
+nav ul {
+    list-style: none;
+    display: flex; /* 横向排列 */
+    justify-content: center; /* 居中对齐 */
+    padding: 0;
+    margin: 0;
+    gap: 20px; /* 导航项之间的间距 */
+}
+
+nav li {
+    margin: 0; /* 清除默认间距 */
+}
+
+nav a {
+    color: #000000; /* 黑色文字 */
+    text-decoration: none;
+    font-size: 14px; /* 字体大小 */
+    font-weight: bold; /* 加粗字体 */
+    transition: color 0.3s ease; /* 悬停效果过渡 */
+    line-height: 1.5; /* 行高 */
+    display: block; /* 使链接占据整个宽度 */
+    text-align: center; /* 文字居中 */
+    padding: 8px 16px; /* 导航项内边距 */
+    border-radius: 19px; /* 导航项圆角 */
+    background-color: transparent; /* 透明背景 */
+    cursor: pointer; /* 鼠标指针样式 */
+}
+
+nav a:hover {
+    color: #007BFF; /* 悬停时颜色变化 */
+}
+
+/* 激活的导航项样式 */
+nav a.tab-activated {
+    color: #007BFF; /* 激活项颜色 */
+    background-color: rgba(0, 0, 0, 0.1); /* 激活项背景颜色 */
+}
+
+nav a.active {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* 添加阴影效果 */
+    background-color: transparent; /* 确保活动按钮背景透明 */
+}
+
+
+
+/* 页面内容样式 */
+main {
+    padding: 20px;
+}
+
+/* 首页样式 */
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.hero img {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    display: block;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 32px;
+    margin-top: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #666;
+}
+
+.latest h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.portfolio-grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.portfolio-item {
+    width: 30%;
+    margin: 1.5%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.portfolio-item h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.portfolio-item p {
+    font-size: 14px;
+    color: #666;
+}
+
+.portfolio-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* 表单样式 */
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+textarea {
+    height: 150px;
+}
+
+input[type="submit"] {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* 页脚样式 */
+.international-footer {
+    background-color: #f5f5f5; /* 背景颜色 */
+    padding: 20px 0; /* 上下内边距 */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.b-footer-wrap {
+    display: flex; /* 使用 flexbox 布局 */
+    justify-content: space-between; /* 左右分开 */
+    align-items: flex-start; /* 顶部对齐 */
+    max-width: 1200px; /* 最大宽度 */
+    margin: 0 auto; /* 居中 */
+    padding: 0 20px; /* 左右内边距 */
+}
+
+.footer_left {
+    display: flex; /* 使用 flexbox 布局 */
+    gap: 40px; /* 链接组之间的间距 */
+}
+
+.link-item {
+    flex: 1; /* 每个链接组占据相同宽度 */
+}
+
+.link-item .bt {
+    font-size: 16px; /* 标题字体大小 */
+    font-weight: bold; /* 加粗 */
+    margin-bottom: 10px; /* 标题与链接之间的间距 */
+}
+
+.link-item ul {
+    list-style: none; /* 去掉列表样式 */
+    padding: 0;
+    margin: 0;
+}
+
+.link-item ul a {
+    color: #666; /* 链接颜色 */
+    text-decoration: none; /* 去掉下划线 */
+    font-size: 14px; /* 字体大小 */
+    display: block; /* 块级元素 */
+    margin-bottom: 8px; /* 链接之间的间距 */
+}
+
+.link-item ul a:hover {
+    color: #007BFF; /* 悬停时颜色变化 */
+}
+
+.footer_right {
+    display: flex; /* 使用 flexbox 布局 */
+    gap: 20px; /* 二维码之间的间距 */
+}
+
+.a-wraper {
+    text-align: center; /* 居中对齐 */
+}
+
+.a-wraper a {
+    text-decoration: none; /* 去掉下划线 */
+    color: #666; /* 链接颜色 */
+}
+
+.a-wraper .biliapp,
+.a-wraper .charity,
+.a-wraper .weibo,
+.a-wraper .weixin {
+    display: flex; /* 使用 flexbox 布局 */
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 居中对齐 */
+}
+
+.a-wraper .biliapp i,
+.a-wraper .weibo i,
+.a-wraper .weixin i {
+    font-size: 32px; /* 图标大小 */
+    margin-bottom: 10px; /* 图标与文字之间的间距 */
+}
+
+.a-wraper .charity img {
+    width: 32px; /* 图标宽度 */
+    height: 32px; /* 图标高度 */
+    margin-bottom: 10px; /* 图标与文字之间的间距 */
+}
+
+.a-wraper p {
+    font-size: 14px; /* 文字大小 */
+    margin: 0;
+}
+
+.qrcode {
+    width: 100px; /* 二维码宽度 */
+    height: 100px; /* 二维码高度 */
+    background-color: #ccc; /* 二维码背景颜�� */
+    margin-top: 10px; /* 二维码与文字之间的间距 */
+}
+
+.partner {
+    margin-top: 40px; /* 合作伙伴区域与上方的间距 */
+    text-align: center; /* 居中对齐 */
+}
+
+.partner .pic-box {
+    display: flex; /* 使用 flexbox 布局 */
+    justify-content: center; /* 居中对齐 */
+    gap: 20px; /* 图片之间的间距 */
+    margin-bottom: 20px; /* 图片与文字之间的间距 */
+}
+
+.partner .pic-box img {
+    height: 40px; /* 图片高度 */
+}
+
+.partner .text-con {
+    font-size: 12px; /* 文字大小 */
+    color: #666; /* 文字颜色 */
+    line-height: 1.6; /* 行高 */
+}
+
+.partner .text-con a {
+    color: #666; /* 链接颜色 */
+    text-decoration: none; /* 去掉下划线 */
+}
+
+.partner .text-con a:hover {
+    color: #007BFF; /* 悬停时颜色变化 */
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column; /* 移动设备上垂直排列 */
+    }
+
+    nav li {
+        margin: 10px 0; /* 上下间距 */
+    }
+
+    .portfolio-item {
+        width: 100%; /* 移动设备上占满宽度 */
+        margin: 10px 0;
+    }
+}
+
+/* 暗黑主题样式 */
+body.dark-theme {
+    background-color: #121212; /* 深色背景 */
+    color: #ffffff; /* 白色文字 */
+}
+
+body.dark-theme header {
+    background-color: #222; /* 深色导航栏背景 */
+}
+
+body.dark-theme nav a {
+    color: #ffffff; /* 白色导航栏文字 */
+}
+
+body.dark-theme nav a:hover {
+    color: #007BFF; /* 悬停时颜色变化 */
+}
+
+body.dark-theme button {
+    background-color: #444; /* 深色按钮背景 */
+}
+
+body.dark-theme button:hover {
+    background-color: #555; /* 悬停时颜色变化 */
+}
+
+body.dark-theme footer {
+    background-color: #222; /* 深色页脚背景 */
+}
+
+body.dark-theme .portfolio-item {
+    background-color: #333; /* 深色作品背景 */
+    border-color: #444; /* 深色边框 */
+}
+
+body.dark-theme .portfolio-item h3 {
+    color: #ffffff; /* 白色标题 */
+}
+
+body.dark-theme .portfolio-item p {
+    color: #ccc; /* 浅色描述 */
+}
+
+/* 页脚固定在底部 */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* 让 main 内容区域占据剩余空间 */
+}
+
+footer {
+    flex-shrink: 0; /* 防止页脚被压缩 */
+    background-color: #f2f2f2;
+    padding: 10px 20px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #70757a;
+}
+
+/* 容器样式 */
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 链接样式 */
+.footer-links a {
+    color: #70757a;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+/* 设置下拉菜单样式 */
+.settings-dropdown {
+    position: relative; /* 确保父元素有相对定位 */
+    display: inline-block;
+}
+
+.settings-button {
+    cursor: pointer;
+    color: #70757a;
+    font-size: 14px; /* 调整字体大小 */
+    padding: 8px 16px; /* 调整内边距 */
+    border-radius: 19px; /* 圆角 */
+    transition: background-color 0.3s ease; /* 悬停效果过渡 */
+}
+
+.settings-button:hover {
+    text-decoration: underline;
+    background-color: rgba(0, 0, 0, 0.05); /* 悬停时背景颜色变化 */
+}
+
+.dropdown-content {
+    display: none; /* 默认隐藏 */
+    position: absolute; /* 绝对定位 */
+    top: 30px; /* 调整顶部位置 */
+    left: 0; /* 调整左侧位置 */
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000; /* 确保层级足够高 */
+    border-radius: 5px; /* 圆角 */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px; /* 调整字体大小 */
+    transition: background-color 0.3s ease; /* 悬停效果过渡 */
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.settings-dropdown:hover .dropdown-content {
+    display: block; /* 鼠标悬停时显示 */
+}
+
+.feedback {
+    cursor: pointer;
+    padding: 12px 16px;
+    display: block;
+    font-size: 14px; /* 调整字体大小 */
+    transition: background-color 0.3s ease; /* 悬停效果过渡 */
+}
+
+.feedback:hover {
+    background-color: #f1f1f1;
+}
+
+/* Glassmorphism 效果 */
+.glassmorphism {
+    backdrop-filter: blur(10px); /* 毛玻璃效果 */
+    background-color: rgba(255, 255, 255, 0.2); /* 半透明背景 */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* 边框 */
+}
+
+/* 设置下拉菜单样式 */
+.settings-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.settings-button {
+    cursor: pointer;
+    color: #70757a;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 19px;
+    transition: background-color 0.3s ease;
+}
+
+.settings-button:hover {
+    text-decoration: underline;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border-radius: 5px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.settings-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.feedback {
+    cursor: pointer;
+    padding: 12px 16px;
+    display: block;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.feedback:hover {
+    background-color: #f1f1f1;
+}
+
+.active {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* 添加阴影效果 */
+    /* 其他样式可以根据需要添加 */
+}

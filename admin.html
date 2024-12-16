@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="css/tailwind.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100">
+    <!-- 顶部导航栏 -->
+    <header class="admin-header">
+        <div class="nav-container">
+            <h1>后台管理</h1>
+        </div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <div class="flex min-h-screen">
+        <!-- 侧边栏导航 -->
+        <aside class="w-64 bg-white shadow-lg fixed h-full pt-16">
+            <nav class="mt-4">
+                <a href="#profile" class="nav-item active" data-section="profile">个人信息管理</a>
+                <a href="#works" class="nav-item" data-section="works">作品管理</a>
+                <a href="#blogs" class="nav-item" data-section="blogs">博客管理</a>
+                <a href="#categories" class="nav-item" data-section="categories">分类管理</a>
+                <a href="#tags" class="nav-item" data-section="tags">标签管理</a>
+                <a href="#about" class="nav-item" data-section="about">关于我页面</a>
+                <a href="#contact" class="nav-item" data-section="contact">联系方式管理</a>
+                <a href="#messages" class="nav-item" data-section="messages">留言管理</a>
+                <a href="#statistics" class="nav-item" data-section="statistics">访问统计</a>
+                <a href="#settings" class="nav-item" data-section="settings">系统设置</a>
+                <a href="#logs" class="nav-item" data-section="logs">系统日志</a>
+                <a href="javascript:void(0)" onclick="logout()" class="nav-item text-red-500">退出登录</a>
+            </nav>
+        </aside>
+
+        <!-- 内容区域 -->
+        <main class="ml-64 flex-1 pt-16 px-8 pb-8">
+            <!-- 个人信息管理 -->
+            <section id="profile-section" class="section active">
+                <!-- 现有的个人信息表单 -->
+            </section>
+
+            <!-- 作品管理 -->
+            <section id="works-section" class="section hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">作品管理</h2>
+                    <button class="btn-primary" onclick="showAddWorkForm()">添加新作品</button>
+                </div>
+                <div id="works-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- 作品列表将通过JavaScript动态加载 -->
+                </div>
+            </section>
+
+            <!-- 博客管理 -->
+            <section id="blogs-section" class="section hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">博客管理</h2>
+                    <div class="flex gap-4">
+                        <div class="relative">
+                            <input type="text" id="blog-search" 
+                                   class="form-input pl-10" 
+                                   placeholder="搜索博客...">
+                            <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" 
+                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        <button onclick="showBlogForm()" class="btn-primary mb-6">写新博客</button>
+                    </div>
+                </div>
+                <div class="flex justify-end gap-2 mb-4">
+                    <button onclick="exportData()" class="btn-secondary">
+                        导出数据
+                    </button>
+                    <label class="btn-secondary cursor-pointer">
+                        导入数据
+                        <input type="file" id="import-file" accept=".json" class="hidden" onchange="importData(event)">
+                    </label>
+                </div>
+                <div id="blogs-list" class="grid grid-cols-1 gap-6">
+                    <!-- 博客列表将通过JavaScript动态加载 -->
+                </div>
+            </section>
+
+            <!-- 分类管理 -->
+            <section id="categories-section" class="section hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">分类管理</h2>
+                    <button class="btn-primary" onclick="showCategoryForm()">添加新分类</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="categories-list">
+                    <!-- 分类列表将通过JavaScript动态加载 -->
+                </div>
+            </section>
+
+            <!-- 标签管理 -->
+            <section id="tags-section" class="section hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">标签管理</h2>
+                    <button class="btn-primary" onclick="showTagForm()">添加新标签</button>
+                </div>
+                <div class="flex flex-wrap gap-2" id="tags-list">
+                    <!-- 标签列表将通过JavaScript动态加载 -->
+                </div>
+            </section>
+
+            <!-- 关于我页面管理 -->
+            <section id="about-section" class="section hidden">
+                <h2 class="text-2xl font-bold mb-6">关于我页面管理</h2>
+                <form id="about-form" class="space-y-4">
+                    <div>
+                        <label class="form-label">页面内容</label>
+                        <textarea id="about-content" class="form-textarea"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">保存更改</button>
+                </form>
+            </section>
+
+            <!-- 联系方式管理 -->
+            <section id="contact-section" class="section hidden">
+                <h2 class="text-2xl font-bold mb-6">联系方式管理</h2>
+                <form id="contact-info-form" class="space-y-4">
+                    <div>
+                        <label class="form-label">邮箱</label>
+                        <input type="email" id="contact-email" class="form-input" required>
+                    </div>
+                    <div>
+                        <label class="form-label">电话</label>
+                        <input type="tel" id="contact-phone" class="form-input" required>
+                    </div>
+                    <div>
+                        <label class="form-label">社交媒体链接</label>
+                        <div class="space-y-2">
+                            <input type="url" id="social-twitter" placeholder="Twitter" class="form-input">
+                            <input type="url" id="social-linkedin" placeholder="LinkedIn" class="form-input">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary w-full">保存联系方式</button>
+                </form>
+            </section>
+
+            <!-- 留言管理 -->
+            <section id="messages-section" class="section hidden">
+                <h2 class="text-2xl font-bold mb-6">留言管理</h2>
+                <div id="messages-list" class="space-y-4">
+                    <!-- 留言列表将通过JavaScript动态加载 -->
+                </div>
+            </section>
+
+            <!-- 访问统计 -->
+            <section id="statistics-section" class="section hidden">
+                <h2 class="text-2xl font-bold mb-6">访问统计</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-600">总访问量</h3>
+                        <p class="text-3xl font-bold mt-2" id="total-visits">0</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-600">今日访问</h3>
+                        <p class="text-3xl font-bold mt-2" id="today-visits">0</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-600">文章数量</h3>
+                        <p class="text-3xl font-bold mt-2" id="total-posts">0</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold text-gray-600">评论数量</h3>
+                        <p class="text-3xl font-bold mt-2" id="total-comments">0</p>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <canvas id="visits-chart"></canvas>
+                </div>
+            </section>
+
+            <!-- 系统设置 -->
+            <section id="settings-section" class="section hidden">
+                <h2 class="text-2xl font-bold mb-6">系统设置</h2>
+                <form id="settings-form" class="space-y-6">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold mb-4">安全设置</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="form-label">修改密码</label>
+                                <input type="password" id="current-password" class="form-input mb-2" placeholder="当前密码">
+                                <input type="password" id="new-password" class="form-input mb-2" placeholder="新密码">
+                                <input type="password" id="confirm-password" class="form-input" placeholder="确认新密码">
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="enable-2fa" class="mr-2">
+                                <label for="enable-2fa">启用两步验证</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold mb-4">网站设置</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="form-label">网站标题</label>
+                                <input type="text" id="site-title" class="form-input">
+                            </div>
+                            <div>
+                                <label class="form-label">网站描述</label>
+                                <textarea id="site-description" class="form-textarea" rows="3"></textarea>
+                            </div>
+                            <div>
+                                <label class="form-label">每页显示文章数量</label>
+                                <input type="number" id="posts-per-page" class="form-input" min="1" max="50">
+                            </div>
+                            <div>
+                                <label class="form-label">主题背景色</label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm text-gray-600 mb-1">浅色模式起始色</label>
+                                        <input type="color" id="light-theme-start" class="form-color-input">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm text-gray-600 mb-1">浅色模式结束色</label>
+                                        <input type="color" id="light-theme-end" class="form-color-input">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm text-gray-600 mb-1">深色模式起始色</label>
+                                        <input type="color" id="dark-theme-start" class="form-color-input">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm text-gray-600 mb-1">深色模式结束色</label>
+                                        <input type="color" id="dark-theme-end" class="form-color-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-md font-semibold mb-3">数据库配置</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="form-label">数据库主机</label>
+                                        <input type="text" id="db-host" class="form-input" placeholder="mysql.sqlpub.com">
+                                    </div>
+                                    <div>
+                                        <label class="form-label">数据库端口</label>
+                                        <input type="number" id="db-port" class="form-input" placeholder="3306">
+                                    </div>
+                                    <div>
+                                        <label class="form-label">数据库名称</label>
+                                        <input type="text" id="db-name" class="form-input" placeholder="mutx163">
+                                    </div>
+                                    <div>
+                                        <label class="form-label">用户名</label>
+                                        <input type="text" id="db-user" class="form-input" placeholder="mutx163">
+                                    </div>
+                                    <div>
+                                        <label class="form-label">密码</label>
+                                        <input type="password" id="db-password" class="form-input">
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex justify-end space-x-2">
+                                    <button type="button" onclick="testDBConnection()" 
+                                            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                                        测试连接
+                                    </button>
+                                    <button type="button" onclick="saveDBConfig()" 
+                                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                        保存配置
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-md font-semibold mb-3">服务器配置</h4>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="form-label">API 服务器地址</label>
+                                        <input type="text" id="api-server" class="form-input" placeholder="http://your-server-ip:3000">
+                                    </div>
+                                </div>
+                                <div class="mt-4 flex justify-end space-x-2">
+                                    <button type="button" onclick="testApiConnection()" 
+                                            class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                                        测试连接
+                                    </button>
+                                    <button type="button" onclick="saveApiConfig()" 
+                                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                        保存配置
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold mb-4">备份设置</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="auto-backup" class="mr-2">
+                                <label for="auto-backup">启用自动备份</label>
+                            </div>
+                            <div>
+                                <label class="form-label">备份频率</label>
+                                <select id="backup-frequency" class="form-input">
+                                    <option value="daily">每天</option>
+                                    <option value="weekly">每周</option>
+                                    <option value="monthly">每月</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">保存设置</button>
+                </form>
+            </section>
+
+            <!-- 系统日志 -->
+            <section id="logs-section" class="section hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">系统日志</h2>
+                    <div class="flex gap-2">
+                        <select id="log-type" class="form-input">
+                            <option value="all">所有日志</option>
+                            <option value="login">登录日志</option>
+                            <option value="operation">操作日志</option>
+                            <option value="error">错误日志</option>
+                        </select>
+                        <button onclick="clearLogs()" class="btn-secondary">清除日志</button>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">时间</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">类型</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">用户</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">详情</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logs-list" class="bg-white divide-y divide-gray-200">
+                                <!-- 日志列表将通过JavaScript动态加载 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 模态框 -->
+    <div id="modal" class="modal fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
+        <div class="modal-content bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl">
+            <!-- 模态框内容将通过 JavaScript 动态加载 -->
+        </div>
+    </div>
+
+    <!-- 加载动画 -->
+    <div id="spinner" class="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center hidden">
+        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

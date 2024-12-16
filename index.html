@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人主页</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+    <style>
+        /* 文本截断样式 */
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        /* 图片容器样式 */
+        .aspect-w-16 {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+        }
+        
+        .aspect-w-16 img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 卡片悬停效果 */
+        .hover\:shadow-xl:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* 暗色主题样式 */
+        .dark-theme {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        
+        .dark-theme .bg-white {
+            background-color: #2d2d2d;
+            color: #ffffff;
+        }
+        
+        .dark-theme .text-gray-600 {
+            color: #d1d5db;
+        }
+        
+        .dark-theme .text-gray-900 {
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-white shadow-sm">
+        <nav class="max-w-6xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-lg font-semibold text-gray-900 hover:text-blue-600">首页</a>
+                    <a href="#blog" class="nav-link text-lg font-semibold text-gray-600 hover:text-blue-600">博客</a>
+                    <a href="#profile" class="nav-link text-lg font-semibold text-gray-600 hover:text-blue-600">关于</a>
+                </div>
+                <button onclick="switchTheme()" class="p-2 rounded-lg hover:bg-gray-100">
+                    <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <div id="page-content">
+        <!-- 页面内容将由 JavaScript 动态加载 -->
+        <main class="max-w-6xl mx-auto py-8 px-4">
+            <!-- 英雄区域 -->
+            <section class="hero text-center py-16">
+                <img src="/images/profile.jpg" alt="个人头像" class="w-32 h-32 rounded-full mx-auto mb-6 object-cover">
+                <h1 class="text-4xl font-bold mb-4">欢迎来到我的个人主页</h1>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">这里是我分享技术、生活和思考的地方</p>
+            </section>
+
+            <!-- 最新博客 -->
+            <section class="mt-16">
+                <h2 class="text-2xl font-bold mb-8">最新博客</h2>
+                <div class="blog-grid space-y-6">
+                    <!-- 博客卡片将由 JavaScript 动态加载 -->
+                </div>
+            </section>
+
+            <!-- 作品展示 -->
+            <section class="mt-16">
+                <h2 class="text-2xl font-bold mb-8">作品展示</h2>
+                <div class="works-grid space-y-6">
+                    <!-- 作品卡片将由 JavaScript 动态加载 -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- 加载动画 -->
+    <div class="loading-spinner fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center hidden">
+        <div class="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+    </div>
+
+    <!-- 错误消息 -->
+    <div id="error-message" class="hidden fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg"></div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

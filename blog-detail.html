@@ -1,0 +1,37 @@
+<main>
+    <section class="max-w-4xl mx-auto py-8 px-4">
+        <div class="mb-8">
+            <a href="#blog" onclick="history.back()" class="text-blue-600 hover:text-blue-800 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                返回博客列表
+            </a>
+        </div>
+        
+        <article class="bg-white rounded-lg shadow-lg p-8">
+            <!-- 博客封面图片 -->
+            <div id="blog-cover" class="mb-8 -mx-8 -mt-8 hidden">
+                <img src="" alt="" class="w-full h-64 object-cover">
+            </div>
+
+            <header class="mb-8">
+                <h1 id="blog-title" class="text-3xl font-bold mb-4"></h1>
+                <div class="flex items-center justify-between text-gray-500 text-sm">
+                    <time id="blog-date"></time>
+                    <span id="blog-category" class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full"></span>
+                </div>
+            </header>
+            
+            <div id="blog-content" class="prose max-w-none">
+                <!-- 博客内容将通过 JavaScript 动态加载 -->
+            </div>
+            
+            <footer class="mt-8 pt-8 border-t border-gray-200">
+                <div id="blog-tags" class="flex flex-wrap gap-2">
+                    <!-- 标签将通过 JavaScript 动态加载 -->
+                </div>
+            </footer>
+        </article>
+    </section>
+</main>

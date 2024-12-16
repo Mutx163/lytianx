@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <main class="max-w-4xl mx-auto py-8 px-4">
+        <section class="bg-white rounded-lg shadow-lg p-8 mb-8">
+            <div class="flex items-center mb-8">
+                <img src="/images/profile.jpg" alt="个人头像" class="w-32 h-32 rounded-full object-cover mr-8">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">关于我</h1>
+                    <p class="text-gray-600">个人简介和联系方式</p>
+                </div>
+            </div>
+            <div class="about-content prose max-w-none">
+                <!-- 这里的内容将由 JavaScript 动态加载 -->
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-lg p-8">
+            <h2 class="text-2xl font-bold mb-6">联系方式</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">电子邮件</h3>
+                    <p id="contact-email-display" class="text-gray-600"></p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">电话</h3>
+                    <p id="contact-phone-display" class="text-gray-600"></p>
+                </div>
+                <div class="col-span-2">
+                    <h3 class="text-lg font-semibold mb-2">社交媒体</h3>
+                    <div class="flex space-x-4">
+                        <a id="social-twitter-link" href="#" target="_blank" class="text-blue-500 hover:text-blue-600 hidden">
+                            Twitter
+                        </a>
+                        <a id="social-linkedin-link" href="#" target="_blank" class="text-blue-500 hover:text-blue-600 hidden">
+                            LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-lg p-8 mt-8">
+            <h2 class="text-2xl font-bold mb-6">给我留言</h2>
+            <form id="contact-form" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">姓名</label>
+                    <input type="text" id="name" name="name" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">邮箱</label>
+                    <input type="email" id="email" name="email" required
+                           class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-700">留言内容</label>
+                    <textarea id="message" name="message" rows="4" required
+                              class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+                </div>
+                <button type="submit"
+                        class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    发送留言
+                </button>
+            </form>
+        </section>
+    </main>
+</body>
+</html> 

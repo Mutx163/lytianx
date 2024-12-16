@@ -1,0 +1,555 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 100;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+main {
+  padding-top: 60px;
+} 
+
+.card-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: #666;
+    margin-top: 1rem;
+}
+
+.card-meta .date,
+.card-meta .category {
+    padding: 0.25rem 0;
+} 
+
+/* 导航栏通用样式 */
+.navbar, .admin-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 100;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+}
+
+/* 后台特定样式 */
+.admin-header h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.admin-header .home-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    color: #666;
+    text-decoration: none;
+    border-radius: 0.375rem;
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+}
+
+.admin-header .home-button:hover {
+    background-color: #e5e7eb;
+    color: #1a73e8;
+    border-color: #1a73e8;
+}
+
+.admin-header .home-button svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* 调整后台内容区域的上边距 */
+.admin-content {
+    padding-top: 100px;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+/* 博客列表样式 */
+.blog-section {
+    padding: 2rem 0;
+}
+
+.blog-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+}
+
+.blog-section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.blog-card {
+    background: #fff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.blog-card-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: #f3f4f6;
+}
+
+.blog-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.blog-card-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-card-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.75rem;
+}
+
+.blog-card-content p {
+    color: #4b5563;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    flex: 1;
+}
+
+.blog-card .card-meta {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+    color: #666;
+    font-size: 0.875rem;
+}
+
+/* 后台导航栏样式 */
+.admin-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+.admin-header .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+}
+
+.admin-header h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.admin-header .home-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    color: #666;
+    text-decoration: none;
+    border-radius: 0.375rem;
+    background-color: #f3f4f6;
+    transition: all 0.2s ease;
+}
+
+.admin-header .home-button:hover {
+    background-color: #e5e7eb;
+    color: #1a73e8;
+}
+
+.admin-content {
+    padding-top: 80px;
+} 
+
+/* 后台卡片样式 */
+.glassmorphism {
+    margin-top: 1rem;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0.5rem;
+} 
+
+/* 后台管理样式 */
+.nav-item {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    color: #4b5563;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.nav-item:hover {
+    background-color: #f3f4f6;
+    color: #1a73e8;
+}
+
+.nav-item.active {
+    background-color: #e5e7eb;
+    color: #1a73e8;
+    font-weight: 500;
+}
+
+.section {
+    display: none;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.section.active {
+    display: block;
+}
+
+.btn-primary {
+    padding: 0.5rem 1rem;
+    background-color: #1a73e8;
+    color: white;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #1557b0;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.form-input, .form-textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    transition: border-color 0.2s;
+}
+
+.form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #1a73e8;
+    ring: 2px;
+    ring-color: #1a73e8;
+}
+
+/* 模态框样式 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    max-width: 500px;
+    width: 90%;
+} 
+
+/* 暗色模式样式 */
+.dark-theme {
+    background-color: #1a1a1a;
+    color: #e5e5e5;
+}
+
+.dark-theme .bg-white {
+    background-color: #2d2d2d;
+    color: #e5e5e5;
+}
+
+.dark-theme .bg-gray-50 {
+    background-color: #1f1f1f;
+}
+
+.dark-theme .text-gray-600,
+.dark-theme .text-gray-700,
+.dark-theme .text-gray-800 {
+    color: #d1d1d1;
+}
+
+.dark-theme .text-gray-500 {
+    color: #a0a0a0;
+}
+
+.dark-theme .glassmorphism {
+    background: rgba(45, 45, 45, 0.7);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .nav-link {
+    color: #e5e5e5;
+}
+
+.dark-theme .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .blog-card,
+.dark-theme .work-card {
+    background-color: #2d2d2d;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.dark-theme .prose {
+    color: #e5e5e5;
+}
+
+.dark-theme .prose h1,
+.dark-theme .prose h2,
+.dark-theme .prose h3,
+.dark-theme .prose h4 {
+    color: #ffffff;
+}
+
+.dark-theme .prose strong {
+    color: #ffffff;
+}
+
+.dark-theme .prose a {
+    color: #60a5fa;
+}
+
+.dark-theme .prose blockquote {
+    color: #d1d1d1;
+    border-left-color: #4b5563;
+}
+
+.dark-theme .prose code {
+    background-color: #374151;
+    color: #e5e5e5;
+}
+
+.dark-theme .prose pre {
+    background-color: #374151;
+}
+
+.dark-theme .bg-gray-100 {
+    background-color: #2d2d2d;
+}
+
+.dark-theme .shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .hover\:bg-gray-200:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 玻璃态效果基础类 */
+.glassmorphism {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 应用玻璃态效果到各种卡片和容器 */
+.blog-card,
+.work-card,
+.hero,
+article,
+.section,
+.modal-content {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 特别定制 hero 部分的样式 */
+.hero {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.hero img {
+    transition: transform 0.3s ease;
+}
+
+.hero:hover img {
+    transform: scale(1.05);
+}
+
+.dark-theme .hero {
+    background: rgba(45, 45, 45, 0.8) !important;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 调整背景色，让玻璃态效果更明显 */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+    min-height: 100vh;
+}
+
+.dark-theme {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+/* 调整卡片悬浮效果 */
+.blog-card:hover,
+.work-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+/* 确保内容可读性 */
+.blog-card-content,
+.work-card p,
+article p {
+    color: inherit;
+}
+
+/* 调整导航栏样式 */
+.navbar {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* 调整页���样式 */
+footer {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* 颜色选择器样式 */
+.form-color-input {
+    width: 100%;
+    height: 40px;
+    padding: 2px;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    cursor: pointer;
+}
+
+.form-color-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.form-color-input::-webkit-color-swatch {
+    border: none;
+    border-radius: 0.25rem;
+}
+
+/* 管理后台加载动画 */
+#admin-spinner {
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+#admin-spinner .animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 作品卡片样式 */
+.works-grid article {
+    background: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.works-grid article:hover {
+    transform: translateY(-5px);
+}
+
+.works-grid .h-48 {
+    height: 12rem;
+}
+
+.works-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+  
