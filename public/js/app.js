@@ -24,10 +24,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const blogList = document.getElementById('blog-list');
         if (blogList) {
             try {
-                const posts = await api.get('/classes/Post?where={"status":"published"}&limit=6&order=-createdAt');
+                const posts = await api.get('/posts?status=published&limit=6');
                 console.log('博客数据:', posts);
-                if (posts && posts.results) {
-                    renderBlogList(posts.results);
+                if (posts && posts.data) {
+                    renderBlogList(posts.data);
                 } else {
                     blogList.innerHTML = '<p class="text-gray-500">暂无博客文章</p>';
                 }
@@ -41,10 +41,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const worksList = document.getElementById('works-list');
         if (worksList) {
             try {
-                const works = await api.get('/classes/Work?where={"status":"published"}&limit=6&order=-createdAt');
+                const works = await api.get('/works?status=published&limit=6');
                 console.log('作品数据:', works);
-                if (works && works.results) {
-                    renderWorksList(works.results);
+                if (works && works.data) {
+                    renderWorksList(works.data);
                 } else {
                     worksList.innerHTML = '<p class="text-gray-500">暂无作品展示</p>';
                 }

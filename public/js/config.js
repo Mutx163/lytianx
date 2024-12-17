@@ -15,12 +15,10 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// LeanCloud API 配置
-const leanCloudConfig = {
-    baseUrl: 'https://stg-mutx1636.avosapps.us/1.1',
+// API 配置
+const apiConfig = {
+    baseUrl: 'https://mutx-98098.web.app/api',
     headers: {
-        'X-LC-Id': 'AFlTg3fRukmZ8KqMl01Y78dD-MdYXbMMI',
-        'X-LC-Key': 'N0muGm2nLMAEQQ27Mh37pVwO',
         'Content-Type': 'application/json'
     }
 };
@@ -32,13 +30,13 @@ const api = {
         const defaultOptions = {
             mode: 'cors',
             headers: {
-                ...leanCloudConfig.headers,
+                ...apiConfig.headers,
                 'Authorization': token ? `Bearer ${token}` : ''
             }
         };
 
         try {
-            const response = await fetch(`${leanCloudConfig.baseUrl}${endpoint}`, {
+            const response = await fetch(`${apiConfig.baseUrl}${endpoint}`, {
                 ...defaultOptions,
                 ...options,
                 headers: {
@@ -92,5 +90,5 @@ const api = {
 
 // 导出配置和工具
 window.firebaseConfig = firebaseConfig;
-window.leanCloudConfig = leanCloudConfig;
+window.apiConfig = apiConfig;
 window.api = api; 
