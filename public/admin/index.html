@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 编辑器相关 -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css">
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body class="bg-gray-100">
+    <div id="app" class="min-h-screen">
+        <!-- 顶部导航栏 -->
+        <header id="header" class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50 h-16 hidden">
+            <div class="container mx-auto px-4 h-full flex items-center justify-between">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold">后台管理系统</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="username" class="text-gray-600"></span>
+                    <button id="logout-btn" class="text-red-500 hover:text-red-700">退出登录</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主要内容区 -->
+        <div class="flex pt-16 min-h-screen">
+            <!-- 侧边栏 -->
+            <aside id="sidebar" class="fixed left-0 top-16 bottom-0 w-64 bg-white shadow-sm hidden">
+                <nav class="py-4">
+                    <div class="space-y-1">
+                        <a href="/admin" class="nav-item" data-section="dashboard">
+                            <span class="nav-icon">📊</span>
+                            <span>仪表盘</span>
+                        </a>
+                        <a href="/admin/posts" class="nav-item" data-section="posts">
+                            <span class="nav-icon">📝</span>
+                            <span>文章管理</span>
+                        </a>
+                        <a href="/admin/works" class="nav-item" data-section="works">
+                            <span class="nav-icon">🎨</span>
+                            <span>作品管理</span>
+                        </a>
+                        <a href="/admin/categories" class="nav-item" data-section="categories">
+                            <span class="nav-icon">📁</span>
+                            <span>分类管理</span>
+                        </a>
+                        <a href="/admin/tags" class="nav-item" data-section="tags">
+                            <span class="nav-icon">🏷️</span>
+                            <span>标签管理</span>
+                        </a>
+                        <a href="/admin/comments" class="nav-item" data-section="comments">
+                            <span class="nav-icon">💬</span>
+                            <span>评论管理</span>
+                        </a>
+                        <a href="/admin/profile" class="nav-item" data-section="profile">
+                            <span class="nav-icon">👤</span>
+                            <span>个人资料</span>
+                        </a>
+                        <a href="/admin/settings" class="nav-item" data-section="settings">
+                            <span class="nav-icon">⚙️</span>
+                            <span>系统设置</span>
+                        </a>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- 主内容区 -->
+            <main id="main" class="ml-64 flex-1 p-6">
+                <div id="content" class="container mx-auto">
+                    <!-- 内容将通过 JavaScript 动态加载 -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- 加载动画 -->
+    <div id="loading" class="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+
+    <!-- 提示框 -->
+    <div id="toast" class="fixed top-4 right-4 z-50 transform translate-x-full opacity-0 transition-all duration-300">
+        <div class="flex items-center space-x-2 p-4 rounded-lg shadow-lg">
+            <span id="toast-icon" class="text-2xl"></span>
+            <span id="toast-message" class="text-sm"></span>
+        </div>
+    </div>
+
+    <!-- 模态框 -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden opacity-0 transition-opacity duration-300">
+        <div class="min-h-screen flex items-center justify-center p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full transform scale-95 transition-transform duration-300">
+                <div class="p-6">
+                    <div id="modal-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 工具函数 -->
+    <script src="/admin/js/utils/logger.js"></script>
+    <script src="/admin/js/utils/helpers.js"></script>
+    <script src="/admin/js/utils/http.js"></script>
+    <script src="/admin/js/utils/ui.js"></script>
+    
+    <!-- 核心服务 -->
+    <script src="/admin/js/services/api.js"></script>
+    <script src="/admin/js/services/auth.js"></script>
+
+    <!-- 业务服务 -->
+    <script src="/admin/js/services/posts.js"></script>
+    <script src="/admin/js/services/works.js"></script>
+    <script src="/admin/js/services/categories.js"></script>
+    <script src="/admin/js/services/tags.js"></script>
+    <script src="/admin/js/services/comments.js"></script>
+    
+    <!-- 组件 -->
+    <script src="/admin/js/components/editor.js"></script>
+    <script src="/admin/js/components/fileUploader.js"></script>
+    <script src="/admin/js/components/datePicker.js"></script>
+    
+    <!-- 主应用 -->
+    <script src="/admin/js/app.js"></script>
+
+    <!-- 认证检查 -->
+    <script>
+        // 页面加载时检查认证状态
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const isAuthenticated = await auth.checkAuth();
+                if (!isAuthenticated) {
+                    // 根据环境确定登录页面路径
+                    const loginPath = window.location.port === '5500'
+                        ? '/admin/login.html'  // Live Server环境
+                        : '/admin/login';      // Express环境
+                    window.location.href = loginPath;
+                }
+            } catch (error) {
+                console.error('认证检查失败:', error);
+                // 根据环境确定登录页面路径
+                const loginPath = window.location.port === '5500'
+                    ? '/admin/login.html'  // Live Server环境
+                    : '/admin/login';      // Express环境
+                window.location.href = loginPath;
+            }
+        });
+
+        // 处理导航链接
+        document.addEventListener('DOMContentLoaded', () => {
+            // 根据当前环境添加或移除 .html 后缀
+            const isLiveServer = window.location.port === '5500';
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            navItems.forEach(item => {
+                const href = item.getAttribute('href');
+                if (isLiveServer) {
+                    // 如果是 Live Server 环境，确保所有链接都有 .html 后缀
+                    if (href === '/admin') {
+                        item.setAttribute('href', '/admin/index.html');
+                    } else if (!href.endsWith('.html')) {
+                        item.setAttribute('href', href + '.html');
+                    }
+                }
+            });
+
+            // 高亮当前页面对应的导航项
+            const currentPath = window.location.pathname;
+            navItems.forEach(item => {
+                const href = item.getAttribute('href');
+                if (currentPath.includes(href) || 
+                    (currentPath.endsWith('index.html') && href === '/admin') ||
+                    (currentPath.endsWith('/admin') && href === '/admin')) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

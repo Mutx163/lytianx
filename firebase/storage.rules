@@ -1,0 +1,52 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // 检查用户是否已登录
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // 检查用户是否是管理员
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.role == 'admin';
+    }
+    
+    // 检查文件大小是否在限制范围内
+    function isValidSize() {
+      return request.resource.size < 5 * 1024 * 1024; // 5MB
+    }
+    
+    // 检查文件类型是否合法
+    function isValidType() {
+      return request.resource.contentType.matches('image/.*') ||
+             request.resource.contentType.matches('application/pdf') ||
+             request.resource.contentType.matches('application/msword') ||
+             request.resource.contentType.matches('application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    }
+    
+    // 图片文件
+    match /images/{imageId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && isValidSize() && isValidType();
+    }
+    
+    // 文档文件
+    match /documents/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidSize() && isValidType();
+    }
+    
+    // 用户头像
+    match /avatars/{userId} {
+      allow read: if true;
+      allow write: if isAuthenticated() && request.auth.uid == userId && isValidSize() && isValidType();
+    }
+    
+    // 其他文件
+    match /{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

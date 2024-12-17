@@ -1,0 +1,65 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 检查用户是否已登录
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // 检查用户是否是管理员
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.role == 'admin';
+    }
+    
+    // 检查是否是文档所有者
+    function isOwner(resource) {
+      return isAuthenticated() && resource.data.authorId == request.auth.uid;
+    }
+    
+    // 用户集合
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    // 文章集合
+    match /posts/{postId} {
+      allow read: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isAdmin() || isOwner(resource);
+    }
+    
+    // 作品集合
+    match /works/{workId} {
+      allow read: if true;
+      allow create: if isAdmin();
+      allow update, delete: if isAdmin() || isOwner(resource);
+    }
+    
+    // 分类集合
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // 标签集合
+    match /tags/{tagId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // 评论集合
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin() || isOwner(resource);
+    }
+    
+    // 系统设置集合
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

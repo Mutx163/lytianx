@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "mutx-98098"
+  },
+  "targets": {
+    "mutx-98098": {
+      "hosting": {
+        "main": [
+          "mutx-98098"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

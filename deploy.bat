@@ -5,62 +5,93 @@ echo ============================================
 echo          前后端代码自动部署脚本
 echo ============================================
 
-REM 部署前端代码到 GitHub Pages
-echo [1] 部署前端代码到 GitHub Pages...
-echo.
-
-if not exist .git (
-    echo [1.1] 初始化前端仓库...
-    git init
-    git remote add origin https://github.com/Mutx163/mutx163.github.io.git
-    git config --global credential.helper store
+:input_message
+echo 请输入提交信息:
+set /p commit_msg=^> 
+if "%commit_msg%"=="" (
+    echo 提交信息不能为空！
+    goto input_message
 )
 
-echo [1.2] 配置 Git...
-git config --local core.autocrlf false
-git config --local i18n.logoutputencoding utf-8
-git config --local i18n.commitencoding utf-8
-git config --local gui.encoding utf-8
-
-echo [1.3] 添加前端文件...
-git add -A
-
-echo [1.4] 提交前端代码...
-set /p frontend_message=请输入前端代码提交说明: 
-git commit -m "%frontend_message%"
-
-echo [1.5] 切换分支...
-git branch -M main
-
-echo [1.6] 推送前端代码...
-git push -f origin main
-
-REM 部署后端代码到私有仓库
+REM 1. 部署后端代码到 LeanCloud
 echo.
-echo [2] 部署后端代码到私有仓库...
-echo.
+echo [1] 部署后端代码到 LeanCloud...
 
-cd server
+REM 进入 server 目录
+cd /d %~dp0server
 
-if not exist .git (
-    echo [2.1] 初始化后端仓库...
+REM 检查是否是首次推送
+git rev-parse --git-dir >nul 2>&1
+if %errorlevel% neq 0 (
+    echo 初始化后端 Git 仓库...
     git init
     git remote add origin https://github.com/Mutx163/personal-website-server.git
+    
+    REM 创建初始提交
+    echo # Personal Website Server > README.md
+    git add README.md
+    git commit -m "Initial commit"
 )
 
-echo [2.2] 添加后端文件...
-git add -A
+REM 添加所有更改
+git add .
 
-echo [2.3] 提交后端代码...
-set /p backend_message=请输入后端代码提交说明: 
-git commit -m "%backend_message%"
+REM 提交更改
+git commit -m "%commit_msg%"
 
-echo [2.4] 推送后端代码...
-git push -f origin main
+REM 尝试推送到 GitHub
+echo 正在推送后端代码到 GitHub...
+git push origin main
+if %errorlevel% neq 0 (
+    echo 尝试切换到 main 分支...
+    git checkout -b main
+    git push -u origin main
+)
 
+echo 后端代码已推送到 GitHub，LeanCloud 将自动部署更新
+
+REM 返回主目录
 cd ..
+
+REM 2. 部署前端代码到 Firebase
+echo.
+echo [2] 部署前端代码到 Firebase...
+
+REM 检查前端 Git 仓库
+git rev-parse --git-dir >nul 2>&1
+if %errorlevel% neq 0 (
+    echo 初始化前端 Git 仓库...
+    git init
+    git remote add origin https://github.com/Mutx163/mutx163.github.io.git
+    
+    REM 创建初始提交
+    echo # Personal Website > README.md
+    git add README.md
+    git commit -m "Initial commit"
+)
+
+REM 添加前端更改
+git add .
+
+REM 提交前端更改
+git commit -m "%commit_msg%"
+
+REM 推送前端代码
+echo 正在推送前端代码到 GitHub...
+git push origin main
+if %errorlevel% neq 0 (
+    echo 尝试切换到 main 分支...
+    git checkout -b main
+    git push -u origin main
+)
+
+REM 部署到 Firebase
+echo.
+echo [3] 部署到 Firebase Hosting...
+call firebase deploy --only hosting
 
 echo.
 echo ============================================
 echo              部署完成！
 echo ============================================
+pause

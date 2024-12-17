@@ -1,0 +1,191 @@
+/* 导航项样式 */
+.nav-item {
+    @apply flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900;
+}
+
+.nav-item.active {
+    @apply bg-blue-50 text-blue-600;
+}
+
+.nav-icon {
+    @apply mr-3 text-lg;
+}
+
+/* 过渡动画 */
+.transition-all {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+}
+
+/* 模态框动画 */
+.modal-content {
+    transform: scale(0.95);
+    opacity: 0;
+    transition: all 300ms ease-in-out;
+}
+
+.modal-content.show {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* 加载动画 */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* 表格样式 */
+.table-container {
+    @apply overflow-x-auto;
+}
+
+.table {
+    @apply min-w-full divide-y divide-gray-200;
+}
+
+.table th {
+    @apply px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+}
+
+.table td {
+    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900;
+}
+
+.table tr {
+    @apply hover:bg-gray-50;
+}
+
+/* 按钮样式 */
+.btn {
+    @apply px-4 py-2 rounded transition-colors duration-200;
+}
+
+.btn-primary {
+    @apply bg-blue-500 text-white hover:bg-blue-600;
+}
+
+.btn-secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
+}
+
+.btn-danger {
+    @apply bg-red-500 text-white hover:bg-red-600;
+}
+
+/* 表单样式 */
+.form-group {
+    @apply mb-4;
+}
+
+.form-label {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+}
+
+.form-input {
+    @apply w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.form-error {
+    @apply text-sm text-red-500 mt-1;
+}
+
+/* 卡片样式 */
+.card {
+    @apply bg-white rounded-lg shadow-sm;
+}
+
+.card-header {
+    @apply px-6 py-4 border-b;
+}
+
+.card-body {
+    @apply p-6;
+}
+
+.card-footer {
+    @apply px-6 py-4 border-t;
+}
+
+/* 标签样式 */
+.tag {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+}
+
+.tag-success {
+    @apply bg-green-100 text-green-800;
+}
+
+.tag-warning {
+    @apply bg-yellow-100 text-yellow-800;
+}
+
+.tag-error {
+    @apply bg-red-100 text-red-800;
+}
+
+.tag-info {
+    @apply bg-blue-100 text-blue-800;
+}
+
+/* 工具提示 */
+.tooltip {
+    @apply relative inline-block;
+}
+
+.tooltip-content {
+    @apply absolute z-10 px-2 py-1 text-xs text-white bg-gray-900 rounded opacity-0 invisible transition-all duration-200;
+}
+
+.tooltip:hover .tooltip-content {
+    @apply opacity-100 visible;
+}
+
+/* 分页样式 */
+.pagination {
+    @apply flex justify-center space-x-1;
+}
+
+.pagination-item {
+    @apply px-3 py-1 rounded hover:bg-gray-100;
+}
+
+.pagination-item.active {
+    @apply bg-blue-500 text-white hover:bg-blue-600;
+}
+
+/* 响应式布局 */
+@media (max-width: 768px) {
+    .sidebar {
+        @apply fixed inset-0 z-40 transform -translate-x-full transition-transform duration-300;
+    }
+
+    .sidebar.open {
+        @apply translate-x-0;
+    }
+
+    .main-content {
+        @apply ml-0;
+    }
+}
+
+/* 暗色模式 */
+@media (prefers-color-scheme: dark) {
+    .dark\:bg-gray-900 {
+        @apply bg-gray-900;
+    }
+
+    .dark\:text-white {
+        @apply text-white;
+    }
+
+    .dark\:border-gray-700 {
+        @apply border-gray-700;
+    }
+} 

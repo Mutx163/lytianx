@@ -1,146 +1,192 @@
 # 个人主页项目
 
-这是一个基于 Express + MySQL 的个人主页项目，包含博客、作品展示等功能。
+## 项目简介
+这是一个基于 Firebase + LeanCloud 的个人主页项目，采用混合云架构设计，实现了高可用、低成本的个人网站解决方案。
 
 ## 技术栈
+- 前端：HTML5, CSS3, JavaScript, TailwindCSS
+- 后端：Node.js, Express, LeanCloud SDK
+- 云服务：
+  - Firebase (Hosting, Authentication)
+  - LeanCloud (云引擎, 数据存储)
+- 部署：GitHub Actions + Firebase CLI
 
-- 前端：HTML5, CSS3, JavaScript
-- 后端：Node.js, Express
-- 数据库：MySQL
-- 部署：GitHub Pages (前端) + LeanCloud (后端)
+## 功能特性
+- 响应式设计，支持多端访问
+- 用户认证和权限管理
+- 内容管理系统
+- 自动化部署流程
+- 实时数据同步
+- 性能监控和错误追踪
 
-## 环境要求
+## 快速开始
 
-- Node.js >= 18.0.0
-- MySQL >= 5.7
+### 环境要求
+- Node.js >= 14.x
+- Git
+- Firebase CLI
+- npm 或 yarn
 
-## 开发环境配置
-
-1. 克隆项目：
+### 安装步骤
+1. 克隆项目
 ```bash
-git clone https://github.com/mutx163/mutx163.github.io.git
-cd mutx163.github.io
+git clone https://github.com/Mutx163/personal-website
+cd personal-website
 ```
 
-2. 安装依赖：
+2. 安装依赖
 ```bash
-# 安装前端依赖
-npm install
-
-# 安装后端依赖
-cd server
 npm install
 ```
 
-3. 配置环境变量：
-- 复制 `server/.env.example` 为 `server/.env`
-- 修改数据库配置：
-  ```
-  DB_HOST=mysql.sqlpub.com
-  DB_PORT=3306
-  DB_USER=mutx163
-  DB_PASSWORD=865xqu8GKm0crj9N
-  DB_NAME=mutx163
-  ```
+3. 配置环境变量
+- 复制 `.env.example` 为 `.env`
+- 填写必要的配置信息
 
-4. 启动开发服务器：
+4. 本地开发
 ```bash
-# 在 server 目录下
 npm run dev
 ```
 
-开发环境说明：
-- 前端访问地址：`http://localhost:5500`（使用 Live Server）
-- 后端 API 地址：`http://localhost:3000`
-- 使用 MySQL 数据库存储数据
+### 部署说明
+使用 `deploy.bat` 脚本一键部署：
+1. 运行脚本
+```bash
+./deploy.bat
+```
+2. 输入提交信息
+3. 等待自动部署完成
 
-## 生产环境部署
+## 项目结构
+```
+├── admin/                 # 管理后台
+├── public/               # 前端静态文件
+├── server/               # 后端服务
+├── firebase/             # Firebase 配置
+└── scripts/              # 部署脚本
+```
 
-项目采用前后端分离部署：
+## 配置说明
 
-### 前端部署 (GitHub Pages)
+### Firebase 配置
+在 `firebase.json` 中配置：
+- Hosting 设置
+- 安全规则
+- API 转发规则
 
-1. 推送代码到 GitHub：
+### LeanCloud 配置
+在 `server/config` 中配置：
+- 应用密钥
+- 环境变量
+- 云引擎设置
+
+## 开发指南
+
+### 本地开发
+1. 启动开发服务器
+```bash
+npm run dev
+```
+
+2. 访问地址
+- 前端页面：http://localhost:5000
+- 管理后台：http://localhost:5000/admin
+
+### 代码提交
+1. 创建功能分支
+```bash
+git checkout -b feature/xxx
+```
+
+2. 提交代码
 ```bash
 git add .
-git commit -m "更新内容"
-git push origin main
+git commit -m "feat: xxx"
 ```
 
-2. 前端自动部署到 GitHub Pages：`https://mutx163.github.io`
-
-### 后端部署 (LeanCloud)
-
-1. 在 LeanCloud 创建应用
-2. 配置环境变量：
-   - `LEANCLOUD_APP_ID`
-   - `LEANCLOUD_APP_KEY`
-   - `LEANCLOUD_APP_MASTER_KEY`
-   - `NODE_ENV=production`
-
-3. 部署后端代码到 LeanCloud：
-   - 后端服务地址：`https://mutx1636.avosapps.us`
-
-生产环境说明：
-- 前端通过 GitHub Pages 提供服务
-- 后端部署在 LeanCloud
-- 数据库使用相同的 MySQL 实例
-
-## 目录结构
-
-```
-├── index.html              # 主页
-├── js/                     # JavaScript 文件
-│   └── script.js          # 主要脚本文件
-├── css/                    # 样式文件
-├── images/                # 图片资源
-├── server/                # 后端代码
-│   ├── app.js            # 主应用文件
-│   ├── config/           # 配置文件
-│   ├── middleware/       # 中间件
-│   └── package.json      # 后端依赖
-└── README.md             # 项目说明文档
+3. 合并主分支
+```bash
+git checkout main
+git merge feature/xxx
 ```
 
-## 功能特性
+## 维护说明
 
-- 响应式设计，支持移动端访问
-- 博客文章管理
-- 作品展示
-- 留言板功能
-- 访问统计
-- 评论系统
-- 黑暗模式支持
-- 搜索功能
+### 监控
+- Firebase Console：前端监控
+- LeanCloud 控制台：后端监控
+- GitHub：代码版本控制
 
-## 开发注意事项
+### 备份
+- 数据定期备份
+- 配置文件备份
+- 代码仓库备份
 
-1. 本地开发时使用 `npm run dev` 启动后端服务
-2. 前端开发使用 Live Server 或类似工具
-3. 确保数据库配置正确
-4. 文件上传功能在开发环境保存到本地，生产环境使用 LeanCloud 存储
+## 常见问题
 
-## 部署注意事项
+### 部署失败
+- 检查 Git 配置
+- 验证 Firebase 登录状态
+- 确认 LeanCloud 配置
 
-1. 确保 LeanCloud 环境变量配置正确
-2. 前端代码中的 API 地址会根据环境自动切换
-3. 数据库连接信息保持不变
-4. 文件上传路径会根据环境自动切换
+### API 错误
+- 检查 API 密钥
+- 验证请求格式
+- 查看错误日志
 
-## 更新记录
-
-### 2024-01-16
-- 优化了开发环境配置
-- 统一了数据库配置
-- 完善了部署文档
+## 更新日志
+- 2024-01-xx：项目初始化
+- 2024-01-xx：添加 Firebase 集成
+- 2024-01-xx：集成 LeanCloud 服务
+- 2024-01-xx：完善部署流程
 
 ## 贡献指南
-
 1. Fork 项目
 2. 创建功能分支
-3. 提交更改
+3. 提交变更
 4. 发起 Pull Request
 
 ## 许可证
-
 MIT License
+
+## 数据库配置
+
+本项目使用MySQL数据库进行数据存储，数据库连接信息如下：
+- 数据库服务器：mysql.sqlpub.com
+- 数据库名：mutx163
+
+### 开发环境设置
+1. 确保已安装Node.js和npm
+2. 安装项目依赖：
+```bash
+npm install
+```
+3. 启动开发服务器：
+```bash
+node server.js
+```
+
+### 部署说明
+- 后端服务（server/目录）部署在LeanCloud平台
+- 数据库使用远程MySQL服务（mysql.sqlpub.com）
+- 前端部署在Firebase平台
+
+### 后端服务结构
+```
+server/
+├── app.js              # 应用主入口
+├── server.js           # 服务器配置
+├── init-db.sql         # 数据库初始化
+├── config/             # 配置文件
+├── models/             # 数据模型
+├── controllers/        # 控制器
+├── routes/            # 路由定义
+├── middlewares/       # 中间件
+└── utils/             # 工具函数
+```
+
+### 技术栈
+- 后端：Express.js + Node.js
+- 数据库：MySQL
+- 前端部署：Firebase Hosting
+- 后端部署：LeanCloud（运行server目录）

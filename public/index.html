@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人主页</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between">
+                <div class="flex space-x-7">
+                    <div>
+                        <a href="#" class="flex items-center py-4">
+                            <span class="font-semibold text-gray-500 text-lg">我的主页</span>
+                        </a>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-1">
+                        <a href="#" class="py-4 px-2 text-gray-500 hover:text-blue-500 transition duration-300">首页</a>
+                        <a href="#" class="py-4 px-2 text-gray-500 hover:text-blue-500 transition duration-300">博客</a>
+                        <a href="#" class="py-4 px-2 text-gray-500 hover:text-blue-500 transition duration-300">作品</a>
+                        <a href="#" class="py-4 px-2 text-gray-500 hover:text-blue-500 transition duration-300">关于</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-3">
+                    <a href="/admin/login" class="py-2 px-4 text-gray-500 hover:text-blue-500 transition duration-300">登录</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <section class="mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">欢迎来到我的个人主页</h1>
+            <p class="text-gray-600">这里是我分享技术、生活和创作的空间。</p>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">最新博客</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="blog-list">
+                <!-- 博客列表将通过 JavaScript 动态加载 -->
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">作品展示</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="works-list">
+                <!-- 作品列表将通过 JavaScript 动态加载 -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white shadow-lg mt-12">
+        <div class="max-w-6xl mx-auto px-4 py-8">
+            <div class="text-center text-gray-500">
+                <p>&copy; 2024 我的个人主页. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
